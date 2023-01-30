@@ -173,9 +173,12 @@
   <ItemGroup>
     <ClCompile Include="Application2D.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhysicsObject.cpp" />
+    <ClCompile Include="PhysicsSense.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h" />
+    <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="PhysicsSense.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,16 +10,18 @@ public:
 	PhysicsSense();
 	~PhysicsSense();
 
-	void addActer (PhysicsObject* object);
-	void removeActer (PhysicsObject* object);
+	void AddActer (PhysicsObject* actor);
+	void RemoveActer (PhysicsObject* actor);
 	void Update(float deltaTime);
 	void Draw();
 
-	void setGravity(const glm::vec2 gravity, );
-	glm::vec2 getGravity();
+	void SetGravity(const glm::vec2 gravity) { m_gravity = gravity;}
+	glm::vec2 GetGravity() const {return m_gravity;}
 	
-	void setTimeStep();
-	float getTimeStep();
+	void SetTimeStep(const float timeStep) { m_timeStep = timeStep;}
+	float GetTimeStep() const { return m_timeStep; }
 private:
-
+	glm::vec2 m_gravity;
+	float m_timeStep;
+	std::vector<PhysicsObject> m_actor;
 };
