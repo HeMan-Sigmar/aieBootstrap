@@ -6,7 +6,8 @@
 #include "Gizmos.h"
 #include "Sphere.h"
 
-Application2D::Application2D() {
+Application2D::Application2D()
+{
 
 }
 
@@ -24,9 +25,6 @@ bool Application2D::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	//m_timer = 0;
-
-	//return true;
-
 
 	// increase the 2d line count to maximize the number of objects we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
@@ -47,8 +45,8 @@ bool Application2D::startup() {
 
 
 
-	//ball1->applyForce(glm::vec2(30, 0));
-	//ball2->applyForceToActor(ball1, glm::vec2(-15, 0));
+	ball1->applyForceToActor(ball2, glm::vec2(30, 0));
+	ball2->applyForceToActor(ball1, glm::vec2(-15, 0));
 
 	return true;
 
@@ -69,31 +67,31 @@ void Application2D::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	m_physicsScene->SetTimeStep(0.01f);
+	//m_physicsScene->SetTimeStep(0.01f);
 
-	// Update the camera position using the arrow keys
-	float camPosX;
-	float camPosY;
-	m_2dRenderer->getCameraPos(camPosX, camPosY);
+	//// Update the camera position using the arrow keys
+	//float camPosX;
+	//float camPosY;
+	//m_2dRenderer->getCameraPos(camPosX, camPosY);
 
-	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
-		camPosY += 500.0f * deltaTime;
+	//if (input->isKeyDown(aie::INPUT_KEY_DOWN))
+	//	camPosY += 500.0f * deltaTime;
 
-	if (input->isKeyDown(aie::INPUT_KEY_UP))
-		camPosY -= 500.0f * deltaTime;
+	//if (input->isKeyDown(aie::INPUT_KEY_UP))
+	//	camPosY -= 500.0f * deltaTime;
 
-	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
-		camPosX -= 500.0f * deltaTime;
+	//if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
+	//	camPosX -= 500.0f * deltaTime;
 
-	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
-		camPosX += 500.0f * deltaTime;
+	//if (input->isKeyDown(aie::INPUT_KEY_LEFT))
+	//	camPosX += 500.0f * deltaTime;
 
-	m_2dRenderer->setCameraPos(camPosX, camPosY);
+	//m_2dRenderer->setCameraPos(camPosX, camPosY);
 
 	aie::Gizmos::clear();
 
 	m_physicsScene->Update(deltaTime);
-	m_physicsScene->Draw();
+
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -147,6 +145,7 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
+	m_physicsScene->Draw();
 	static float aspectRatio = 16 / 9.f;
 	aie::Gizmos::draw2D(glm::ortho<float>(-100, 100, -100 / aspectRatio, 100 / aspectRatio, -1.0f, 1.0f));
 

@@ -4,8 +4,10 @@
 #include "Sphere.h"
 
 
-    PhysicsScene::PhysicsScene() : m_timeStep(0.01f), m_gravity(glm::vec2(0, 0))
+    PhysicsScene::PhysicsScene()
     {
+        m_timeStep = 0.01f;
+        m_gravity = glm::vec2(0, 1);
     }
     PhysicsScene::~PhysicsScene()
     {
@@ -76,8 +78,8 @@
         {
             if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
             {
-               sphere1->setVelocity(glm::vec2(0,0));
-                sphere2->setVelocity(glm::vec2(0,0));
+               sphere1->setVelocity(glm::vec2(-4,10));
+               sphere2->setVelocity(glm::vec2(10,-1));
             }
         }
         return false;
