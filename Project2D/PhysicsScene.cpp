@@ -2,6 +2,7 @@
 #include "PhysicsScene.h"
 #include "PhysicsObject.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 
     PhysicsScene::PhysicsScene()
@@ -24,6 +25,15 @@
     {
         m_actors.erase(std::remove(m_actors.begin(), m_actors.end(), actor), m_actors.end());
     }
+
+    // function pointer array for doing our collisions
+    typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
+
+    static fn collisionFunctionArray[] =
+    {
+        PhysicsScene::plane2Plane,     PhysicsScene::plane2Sphere,
+        PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere,
+    };
 
     void PhysicsScene::Update(float dt)
     {
@@ -53,9 +63,17 @@
                     PhysicsObject* object1 = m_actors[outer];
                     PhysicsObject* object2 = m_actors[inner];
 
-                    // for now we can assume both shapes are spheres, 
-                    // since that is all we’ve implemented for now.
-                    sphere2Sphere(object1, object2);
+                    int shapeId1 = object1->getShapeID();
+                    int shapeId2 = object2->getShapeID();
+
+                    // using function pointers
+                    int functionIdx = (shapeId1 * SHAPE_COUNT) + shapeId2;
+                    fn collisionFunctionPtr = collisionFunctionArray[functionIdx];
+                    if (collisionFunctionPtr != nullptr)
+                    {
+                        // did a collision occur?
+                        collisionFunctionPtr(object1, object2);
+                    }
                 }
             }
         }
@@ -78,9 +96,56 @@
         {
             if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
             {
-               sphere1->setVelocity(glm::vec2(-4,10));
-               sphere2->setVelocity(glm::vec2(10,-1));
+               sphere1->setVelocity(glm::vec2(5,0));
+               sphere2->setVelocity(glm::vec2(-5,0));
+               //sphere1->resolveCollision(sphere2);
+            }
+        }
+        //sphere1->resolveCollision(sphere2, 0.5f * (sphere1->getPosition() + sphere2->getPosition()));
+        return false;
+    }
+
+    bool PhysicsScene::plane2Plane(PhysicsObject*, PhysicsObject*)
+    {
+        return false;
+    }
+
+    bool PhysicsScene::plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
+    {
+        // reverse the order of arguments, as obj1 is the plane and obj2 is the sphere
+        Plane* plane1 = dynamic_cast<Plane*>(obj1);
+        Sphere* sphere2 = dynamic_cast<Sphere*>(obj2);
+        return sphere2Plane(obj2, obj1);
+    }
+
+    bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
+    {
+        Sphere* sphere = dynamic_cast<Sphere*>(obj1);
+        Plane* plane = dynamic_cast<Plane*>(obj2);
+        //if we are successful then test for collision
+        if (sphere != nullptr && plane != nullptr)
+        {
+            glm::vec2 collisionNormal = plane->getNormal();
+            float sphereToPlane = glm::dot(sphere->getPosition(), plane->getNormal()) - plane->getDistance();
+
+            float intersection = sphere->getRadius() - sphereToPlane;
+            float velocityOutOfPlane = glm::dot(sphere->getVelocity(), plane->getNormal());
+            if (intersection > 0 && velocityOutOfPlane < 0)
+            {
+                //set sphere velocity to zero here
+                sphere->applyForce(-sphere->getVelocity() * sphere->getMass());
+                return true;
             }
         }
         return false;
+    }
+    float PhysicsScene::getTotalEnergy()
+    {
+        float total = 0;
+        for (auto it = m_actors.begin(); it != m_actors.end(); it++)
+        {
+            PhysicsObject* obj = *it;
+            total += obj->getEnergy();
+        }
+        return total;
     }

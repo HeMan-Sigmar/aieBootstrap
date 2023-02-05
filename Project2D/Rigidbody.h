@@ -7,7 +7,7 @@ public:
     ~Rigidbody();
 
     virtual void fixedUpdate(glm::vec2 gravity, float timeStep);
-    void applyForce(glm::vec2 force);
+    void applyForce(glm::vec2 force/*, glm::vec2 pos*/);
     void applyForceToActor(Rigidbody* actor2, glm::vec2 force);
 
     glm::vec2 getPosition() { return m_position; }
@@ -17,9 +17,16 @@ public:
 
     glm::vec2 setVelocity(glm::vec2 velocity);
 
+    float getKineticEnergy();
+    void resolveCollision(Rigidbody* actor2/*, glm::vec2 contact, glm::vec2* collisionNormal = nullptr*/);
+
+    float getPotentialEnergy();
+
 protected:
     glm::vec2 m_position;
     glm::vec2 m_velocity;
     float m_mass;
     float m_orientation;    //2D so we only need a single float to represent our orientation
+    float m_angularVelocity;
+    float m_moment;
 };
