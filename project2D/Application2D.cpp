@@ -35,17 +35,20 @@ bool Application2D::startup() {
 
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->SetTimeStep(0.01f);
-	m_physicsScene->SetGravity(glm::vec2(0,-9.87f));
+	m_physicsScene->SetGravity(glm::vec2(0,-6.20f));
 
 	Sphere* ball1;
 	Sphere* ball2;
-	ball1 = new Sphere(glm::vec2(20, 0), glm::vec2(-20, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
-	ball2 = new Sphere(glm::vec2(-30, 0), glm::vec2(10, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
+	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(-20, 0), 2.f, 4, glm::vec4(1, 0, 0, 1));
+	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 2.f, 4, glm::vec4(0, 1, 0, 1));
 
 	Plane* plane1 = new Plane(glm::vec2(0, 1), -40);
 	Plane* plane2 = new Plane(glm::vec2(0, -1), -40);
 	Plane* plane3 = new Plane(glm::vec2(1, 0), -40);
-	Plane* plane4 = new Plane(glm::vec2(-1, 0), -40);
+	Plane* plane4 = new Plane(glm::vec2(-1, 0), -0);
+
+	float angle = atan2(ball1->getPosition().y - ball2->getPosition().y, ball1->getPosition().x - ball2->getPosition().x);
+	float inDegrees = angle * 180.0f / 3.141f;
 
 	m_physicsScene->AddActor(ball1);
 	m_physicsScene->AddActor(ball2);
@@ -56,8 +59,8 @@ bool Application2D::startup() {
 	m_physicsScene->AddActor(plane4);
 
 
-	ball1->applyForceToActor(ball2, glm::vec2(30, 0));
-	ball2->applyForceToActor(ball1, glm::vec2(-15, 0));
+	ball1->applyForce(glm::vec2(30, 0), glm::vec2(0,0));
+	ball2->applyForce(glm::vec2(-15, 0), glm::vec2(0,0));
 
 	return true;
 
@@ -77,6 +80,7 @@ void Application2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+	Plane* plane = aie::Input::getInstance();
 
 	//m_physicsScene->SetTimeStep(0.01f);
 

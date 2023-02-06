@@ -91,14 +91,13 @@
         // try to cast objects to sphere and sphere
         Sphere* sphere1 = dynamic_cast<Sphere*>(obj1);
         Sphere* sphere2 = dynamic_cast<Sphere*>(obj2);
+
         // if we are successful then test for collision
         if (sphere1 != nullptr && sphere2 != nullptr)
         {
             if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
             {
-               sphere1->setVelocity(glm::vec2(5,0));
-               sphere2->setVelocity(glm::vec2(-5,0));
-               //sphere1->resolveCollision(sphere2);
+                sphere1->resolveCollision(sphere2, 0.5f * (sphere1->getPosition() + sphere2->getPosition()), );
             }
         }
         //sphere1->resolveCollision(sphere2, 0.5f * (sphere1->getPosition() + sphere2->getPosition()));
@@ -122,6 +121,8 @@
     {
         Sphere* sphere = dynamic_cast<Sphere*>(obj1);
         Plane* plane = dynamic_cast<Plane*>(obj2);
+        glm::vec2 collisionNormal = plane->getNormal();
+        glm::vec2 contact = sphere->getPosition() + (collisionNormal * -sphere->getRadius());
         //if we are successful then test for collision
         if (sphere != nullptr && plane != nullptr)
         {
@@ -133,7 +134,7 @@
             if (intersection > 0 && velocityOutOfPlane < 0)
             {
                 //set sphere velocity to zero here
-                sphere->applyForce(-sphere->getVelocity() * sphere->getMass());
+                plane->resolveCollision(sphere, contact);
                 return true;
             }
         }
