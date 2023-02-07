@@ -1,5 +1,6 @@
 #include "glm/glm.hpp"
 #include <vector>
+#include "Box.h"
 #pragma once
 
 class PhysicsObject;
@@ -28,6 +29,9 @@ class PhysicsObject;
 		static bool sphere2Plane(PhysicsObject*, PhysicsObject*);
 		float getTotalEnergy();
 		static bool sphere2Sphere(PhysicsObject*, PhysicsObject*);
+		static bool box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
+		static bool box2Box(PhysicsObject* obj1, PhysicsObject* obj2);
+		static bool plane2Box(PhysicsObject* obj1, PhysicsObject* obj2);
 	private:
 		glm::vec2 m_gravity;
 		float m_timeStep;

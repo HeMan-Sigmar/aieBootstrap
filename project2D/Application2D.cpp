@@ -45,7 +45,9 @@ bool Application2D::startup() {
 	Plane* plane1 = new Plane(glm::vec2(0, 1), -40);
 	Plane* plane2 = new Plane(glm::vec2(0, -1), -40);
 	Plane* plane3 = new Plane(glm::vec2(1, 0), -40);
-	Plane* plane4 = new Plane(glm::vec2(-1, 0), -0);
+	Plane* plane4 = new Plane(glm::vec2(-1, 0), -40);
+
+	Box* box1 = new Box();
 
 	float angle = atan2(ball1->getPosition().y - ball2->getPosition().y, ball1->getPosition().x - ball2->getPosition().x);
 	float inDegrees = angle * 180.0f / 3.141f;
@@ -80,7 +82,6 @@ void Application2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	Plane* plane = aie::Input::getInstance();
 
 	//m_physicsScene->SetTimeStep(0.01f);
 

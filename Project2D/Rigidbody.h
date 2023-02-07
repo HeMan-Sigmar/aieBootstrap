@@ -22,11 +22,13 @@ public:
 
     float getKineticEnergy() { return 0.5f * (m_mass * glm::dot(m_velocity, m_velocity) + m_moment * m_angularVelocity * m_angularVelocity);
     }
-    void resolveCollision(Rigidbody* actor2, glm::vec2 contact, glm::vec2* collisionNormal);
+    void resolveCollision(Rigidbody* actor2, glm::vec2 contact, glm::vec2* collisionNormal = nullptr);
 
     float getPotentialEnergy();
 
     void setMass(float diff);
+
+    float getAngularVelocity() { return m_angularVelocity; }
 protected:
     glm::vec2 m_position;
     glm::vec2 m_velocity;
