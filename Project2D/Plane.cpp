@@ -2,6 +2,7 @@
 #include "glm/glm.hpp"
 #include "Gizmos.h"
 #include "Rigidbody.h"
+#include "PhysicsScene.h"
 #include <iostream>
 
 Plane::Plane(glm::vec2 normal, float distance) : PhysicsObject(ShapeType::PLANE) {
@@ -42,6 +43,9 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
         glm::vec2 vRel = actor2->getVelocity() + actor2->getAngularVelocity() * glm::vec2(-localContact.y, localContact.x);
     float velocityIntoPlane = glm::dot(vRel, m_normal);
 
+    // average the elasticity of the plane and the rigidbody 
+    float e = (getElasticity() + actor2->getElasticity());
+
     // perfectly elasticity collisions for now 
     float e = 1;
 
@@ -60,6 +64,9 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
     float kePre = actor2->getKineticEnergy();
 
     actor2->applyForce(force, contact - actor2->getPosition());
+
+    float pen = glm::dot(contact, m_normal) - m_distanceToOrigin;
+    PhysicsScene::ApplyContactForces(actor2, nullptr, m_normal, pen);
 
     float kePost = actor2->getKineticEnergy();
 

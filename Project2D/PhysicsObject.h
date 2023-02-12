@@ -5,10 +5,9 @@
 enum ShapeType {
     PLANE = 0,
     SPHERE,
-    /*BOX*/
-    SHAPE_COUNT
+    BOX,
 };
-
+const int SHAPE_COUNT = 3;
     class PhysicsObject
     {
     protected:
