@@ -40,7 +40,7 @@ bool Application2D::startup() {
 
 	Sphere* ball1;
 	Sphere* ball2;
-	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(-10, 0), 2.f, 4, glm::vec4(1, 0, 0, 1));
+	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(-50, 0), 2.f, 4, glm::vec4(1, 0, 0, 1));
 	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(5, 0), 2.f, 4, glm::vec4(0, 1, 0, 1));
 
 	Plane* plane1 = new Plane(glm::vec2(0, 1), -40);
@@ -51,7 +51,7 @@ bool Application2D::startup() {
 	Box* box1;
 	Box* box2;
 	box1 = new Box(glm::vec2(2, 2), glm::vec2(1,1), glm::vec2 (-20,0), 2.f, glm::vec4 (1, 0, 0, 1));
-	box2 = new Box(glm::vec2(2, 2), glm::vec2(0,0), glm::vec2 (-10,0), 2.f, glm::vec4 (1, 0, 0, 1));
+
 
 	float angle = atan2(ball1->getPosition().y - ball2->getPosition().y, ball1->getPosition().x - ball2->getPosition().x);
 	float inDegrees = angle * 180.0f / 3.141f;
@@ -65,13 +65,13 @@ bool Application2D::startup() {
 	m_physicsScene->AddActor(plane4);
 
 	m_physicsScene->AddActor(box1);
-	m_physicsScene->AddActor(box2);
 
 
-	ball1->applyForce(glm::vec2(30, 0), glm::vec2(0,0));
+	ball1->applyForce(glm::vec2(5, 0), glm::vec2(0,0));
 	ball2->applyForce(glm::vec2(-15, 0), glm::vec2(0,0));
 	box1->applyForce(glm::vec2(-5, 4), glm::vec2(0, 5));
-	box1->applyForce(glm::vec2(4, 0), glm::vec2(0, -4));
+
+
 
 
 	return true;

@@ -27,4 +27,5 @@ protected:
 
 	float m_height;
 	float m_width;
+	glm::vec2 m_rotation;
 };

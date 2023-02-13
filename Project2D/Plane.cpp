@@ -35,7 +35,7 @@ void Plane::draw()
 
 void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
 {
-    
+    PhysicsScene scene;
     // the position at which we'll apply the force relative to the object's COM 
     glm::vec2 localContact = contact - actor2->getPosition();
 
@@ -44,10 +44,10 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
     float velocityIntoPlane = glm::dot(vRel, m_normal);
 
     // average the elasticity of the plane and the rigidbody 
-    float e = (getElasticity() + actor2->getElasticity());
+    float e = actor2->getElasticity();
 
     // perfectly elasticity collisions for now 
-    float e = 1;
+    //float e = 1;
 
     // this is the perpendicular distance we apply the force at relative to the COM, so Torque = F * r
         float r = glm::dot(localContact, glm::vec2(m_normal.y, -m_normal.x));
@@ -66,7 +66,8 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
     actor2->applyForce(force, contact - actor2->getPosition());
 
     float pen = glm::dot(contact, m_normal) - m_distanceToOrigin;
-    PhysicsScene::ApplyContactForces(actor2, nullptr, m_normal, pen);
+
+    scene.ApplyContactForces(actor2, nullptr, m_normal, pen);
 
     float kePost = actor2->getKineticEnergy();
 

@@ -2,6 +2,8 @@
 #include "Rigidbody.h"
 #include "PhysicsScene.h"
 #include <iostream>
+#define  MIN_LINEAR_THRESHOLD 10
+#define  MIN_ANGULAR_THRESHOLD 10
 
 Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, float orientation, float mass) : PhysicsObject(shapeID)
 {
@@ -10,6 +12,9 @@ Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, 
 	m_shapeID = shapeID;
 	m_velocity = velocity;
 	m_orientation = orientation;
+	m_angularDrag = 0.11f;
+	m_linearDrag = 0.11f;
+	m_angularVelocity = 0.1f;
 }
 void Rigidbody::fixedUpdate(glm::vec2 gravity, float timeStep)
 {
@@ -86,7 +91,10 @@ void Rigidbody::resolveCollision(Rigidbody* actor2, glm::vec2 contact, glm::vec2
 		actor2->applyForce(force, contact - actor2->m_position);
 	}
 	if (pen > 0)
-		PhysicsScene::ApplyContactForces(this, actor2, normal, pen);
+	{
+		PhysicsScene scene;
+		scene.ApplyContactForces(this, actor2, normal, pen);
+	}
 }
 float Rigidbody::getPotentialEnergy()
 {
@@ -97,4 +105,8 @@ float Rigidbody::getPotentialEnergy()
 void Rigidbody::setMass(float diff)
 {
 	m_mass = diff;
+}
+
+void Rigidbody::ToWorld()
+{
 }

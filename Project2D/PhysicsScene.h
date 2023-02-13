@@ -35,6 +35,7 @@ class PhysicsObject;
 		static bool plane2Box(PhysicsObject* obj1, PhysicsObject* obj2);
 
 		float getTotalEnergy();
+		void ApplyContactForces(Rigidbody* body1, Rigidbody* body2, glm::vec2 norm, float pen);
 	private:
 		glm::vec2 m_gravity;
 		float m_timeStep;

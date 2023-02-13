@@ -100,7 +100,7 @@
         // try to cast objects to sphere and sphere
         Sphere* sphere1 = dynamic_cast<Sphere*>(obj1);
         Sphere* sphere2 = dynamic_cast<Sphere*>(obj2);
-
+        float dist = 1.8f;
         // if we are successful then test for collision
         if (sphere1 != nullptr && sphere2 != nullptr)
         {
@@ -241,6 +241,28 @@
         return false;
     }
 
+    void PhysicsScene::checkForCollision()
+    {
+        int actorCount = m_actors.size();
+
+        //need to check for collisions against all objects except this one. 
+        for (int outer = 0; outer < actorCount - 1; outer++)
+        {
+            for (int inner = outer + 1; inner < actorCount; inner++)
+            {
+                PhysicsObject* object1 = m_actors[outer];
+                PhysicsObject* object2 = m_actors[inner];
+                int shapeId1 = object1->getShapeID();
+                int shapeId2 = object2->getShapeID();
+
+                // this check will ensure we don't include any joints  
+                // in the collision checks 
+                if (shapeId1 < 0 || shapeId2 < 0)
+                    continue;
+            }
+        }
+    }
+
     bool PhysicsScene::plane2Plane(PhysicsObject*, PhysicsObject*)
     {
         return false;
@@ -287,3 +309,16 @@
         }
         return total;
     }
+
+    // body2 can be null for a Plane 
+    void PhysicsScene::ApplyContactForces(Rigidbody* body1, Rigidbody* body2, glm::vec2 norm, float pen)
+    {
+        float body2Mass = body2 ? body2->getMass() : INT_MAX;
+
+        float body1Factor = body2Mass / (body1->getMass() + body2Mass);
+
+        body1->setPosition(body1->getPosition() - body1Factor * norm * pen);
+        if (body2)
+            body2->setPosition(body2->getPosition() + (1 - body1Factor) * norm * pen);
+    }
+
