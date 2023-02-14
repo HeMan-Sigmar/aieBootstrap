@@ -36,12 +36,20 @@ bool Application2D::startup() {
 
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->SetTimeStep(0.01f);
-	m_physicsScene->SetGravity(glm::vec2(0,-6.20f));
+	m_physicsScene->SetGravity(glm::vec2(0,0));
 
 	Sphere* ball1;
 	Sphere* ball2;
-	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(-50, 0), 2.f, 4, glm::vec4(1, 0, 0, 1));
-	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(5, 0), 2.f, 4, glm::vec4(0, 1, 0, 1));
+	Sphere* ball3;
+	Sphere* ball4;
+	Sphere* ball5;
+	Sphere* ball6;
+	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(-150, 0), 2.f, 2, glm::vec4(1, 0, 0, 1));
+	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 2.f, 2, glm::vec4(0, 1, 0, 1));
+	ball3 = new Sphere(glm::vec2(5, 0), glm::vec2(0, 0), 2.f, 2, glm::vec4(0, 1, 0, 1));
+	ball4 = new Sphere(glm::vec2(2, 0), glm::vec2(0, 0), 2.f, 2, glm::vec4(0, 1, 0, 1));
+	ball5 = new Sphere(glm::vec2(-6, 0), glm::vec2(0, 0), 2.f, 2, glm::vec4(0, 1, 0, 1));
+	ball6 = new Sphere(glm::vec2(7, 0), glm::vec2(0, 0), 2.f, 2, glm::vec4(0, 1, 0, 1));
 
 	Plane* plane1 = new Plane(glm::vec2(0, 1), -40);
 	Plane* plane2 = new Plane(glm::vec2(0, -1), -40);
@@ -50,7 +58,16 @@ bool Application2D::startup() {
 
 	Box* box1;
 	Box* box2;
-	box1 = new Box(glm::vec2(2, 2), glm::vec2(1,1), glm::vec2 (-20,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	Box* box3;
+	Box* box4;
+	Box* box5;
+	Box* box6;
+	box1 = new Box(glm::vec2(2, 2), glm::vec2(0,-20), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	box2 = new Box(glm::vec2(2, 2), glm::vec2(6,-54), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	box3 = new Box(glm::vec2(2, 2), glm::vec2(36,-20), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	box4 = new Box(glm::vec2(2, 2), glm::vec2(0,-36), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	box5 = new Box(glm::vec2(2, 2), glm::vec2(6,12), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
+	box6 = new Box(glm::vec2(2, 2), glm::vec2(5,6), glm::vec2 (0,0), 2.f, glm::vec4 (1, 0, 0, 1));
 
 
 	float angle = atan2(ball1->getPosition().y - ball2->getPosition().y, ball1->getPosition().x - ball2->getPosition().x);
@@ -58,6 +75,10 @@ bool Application2D::startup() {
 
 	m_physicsScene->AddActor(ball1);
 	m_physicsScene->AddActor(ball2);
+	m_physicsScene->AddActor(ball3);
+	m_physicsScene->AddActor(ball4);
+	m_physicsScene->AddActor(ball5);
+	m_physicsScene->AddActor(ball6);
 
 	m_physicsScene->AddActor(plane1);
 	m_physicsScene->AddActor(plane2);
@@ -65,11 +86,21 @@ bool Application2D::startup() {
 	m_physicsScene->AddActor(plane4);
 
 	m_physicsScene->AddActor(box1);
+	m_physicsScene->AddActor(box2);
+	m_physicsScene->AddActor(box3);
+	m_physicsScene->AddActor(box4);
+	m_physicsScene->AddActor(box5);
+	m_physicsScene->AddActor(box6);
 
+	ball1->applyForce(glm::vec2(100, 5), glm::vec2(0,0));
+	ball2->applyForce(glm::vec2(73, 2), glm::vec2(0,0));
+	ball3->applyForce(glm::vec2(-65, 54), glm::vec2(0,0));
+	ball3->applyForce(glm::vec2(45, 56), glm::vec2(0,0));
+	ball4->applyForce(glm::vec2(-87,2), glm::vec2(0,0));
+	ball5->applyForce(glm::vec2(32, 67), glm::vec2(0,0));
+	ball6->applyForce(glm::vec2(-12, 0), glm::vec2(0,0));
 
-	ball1->applyForce(glm::vec2(5, 0), glm::vec2(0,0));
-	ball2->applyForce(glm::vec2(-15, 0), glm::vec2(0,0));
-	box1->applyForce(glm::vec2(-5, 4), glm::vec2(0, 5));
+	box1->applyForce(glm::vec2(0, 0), glm::vec2(0,0));
 
 
 

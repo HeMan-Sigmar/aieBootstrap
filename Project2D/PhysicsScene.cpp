@@ -8,7 +8,7 @@
     PhysicsScene::PhysicsScene()
     {
         m_timeStep = 0.01f;
-        m_gravity = glm::vec2(0, 1);
+        m_gravity = glm::vec2(1, 1);
     }
     PhysicsScene::~PhysicsScene()
     {
@@ -37,11 +37,9 @@
         PhysicsScene::sphere2Plane, 
         PhysicsScene::sphere2Sphere,
         PhysicsScene::sphere2Box,
-        PhysicsScene::box2Sphere,
-        PhysicsScene::box2Box,
         PhysicsScene::box2Plane,
-
-
+        PhysicsScene::box2Sphere,
+        PhysicsScene::box2Box,       
     };
 
     void PhysicsScene::Update(float dt)
@@ -119,9 +117,9 @@
         return false;
     }
 
-    bool PhysicsScene::sphere2Box(PhysicsObject*, PhysicsObject*)
+    bool PhysicsScene::sphere2Box(PhysicsObject* obj1, PhysicsObject* obj2)
     {
-        return false;
+        return box2Sphere(obj2, obj1);
     }
 
     bool PhysicsScene::box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
@@ -156,6 +154,7 @@
                 glm::vec2 direction = glm::normalize(circleToBox);
                 glm::vec2 contact = closestPointOnBoxWorld;
                 box->resolveCollision(sphere, contact, &direction, penetration);
+                return true;
             }
         }
 
@@ -186,7 +185,7 @@
 
     bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
     {
-        return false;
+        return plane2Box(obj2, obj1);
     }
 
     bool PhysicsScene::plane2Box(PhysicsObject* obj1, PhysicsObject* obj2)
@@ -241,27 +240,31 @@
         return false;
     }
 
-    void PhysicsScene::checkForCollision()
-    {
-        int actorCount = m_actors.size();
+    //this doesn't get called !!!?!?!?!?
 
-        //need to check for collisions against all objects except this one. 
-        for (int outer = 0; outer < actorCount - 1; outer++)
-        {
-            for (int inner = outer + 1; inner < actorCount; inner++)
-            {
-                PhysicsObject* object1 = m_actors[outer];
-                PhysicsObject* object2 = m_actors[inner];
-                int shapeId1 = object1->getShapeID();
-                int shapeId2 = object2->getShapeID();
+    //void PhysicsScene::checkForCollision()
+    //{
+    //    int actorCount = m_actors.size();
 
-                // this check will ensure we don't include any joints  
-                // in the collision checks 
-                if (shapeId1 < 0 || shapeId2 < 0)
-                    continue;
-            }
-        }
-    }
+    //    //need to check for collisions against all objects except this one. 
+    //    for (int outer = 0; outer < actorCount - 1; outer++)
+    //    {
+    //        for (int inner = outer + 1; inner < actorCount; inner++)
+    //        {
+    //            PhysicsObject* object1 = m_actors[outer];
+    //            PhysicsObject* object2 = m_actors[inner];
+    //            int shapeId1 = object1->getShapeID();
+    //            int shapeId2 = object2->getShapeID();
+
+    //            // this check will ensure we don't include any joints  
+    //            // in the collision checks 
+    //            if (shapeId1 < 0 || shapeId2 < 0)
+    //                continue;
+    //            //...
+
+    //        }
+    //    }
+    //}
 
     bool PhysicsScene::plane2Plane(PhysicsObject*, PhysicsObject*)
     {

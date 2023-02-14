@@ -2,8 +2,8 @@
 #include "Rigidbody.h"
 #include "PhysicsScene.h"
 #include <iostream>
-#define  MIN_LINEAR_THRESHOLD 10
-#define  MIN_ANGULAR_THRESHOLD 10
+#define  MIN_LINEAR_THRESHOLD -1
+#define  MIN_ANGULAR_THRESHOLD 0
 
 Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, float orientation, float mass) : PhysicsObject(shapeID)
 {
@@ -15,6 +15,7 @@ Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, 
 	m_angularDrag = 0.11f;
 	m_linearDrag = 0.11f;
 	m_angularVelocity = 0.1f;
+	m_elasticity = 1.1f;
 }
 void Rigidbody::fixedUpdate(glm::vec2 gravity, float timeStep)
 {

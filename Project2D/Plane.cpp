@@ -47,7 +47,7 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
     float e = actor2->getElasticity();
 
     // perfectly elasticity collisions for now 
-    //float e = 1;
+   //float e = 1;
 
     // this is the perpendicular distance we apply the force at relative to the COM, so Torque = F * r
         float r = glm::dot(localContact, glm::vec2(m_normal.y, -m_normal.x));
@@ -72,8 +72,6 @@ void Plane::resolveCollision(Rigidbody* actor2, glm::vec2 contact)
     float kePost = actor2->getKineticEnergy();
 
     float deltaKE = kePost - kePre;
-    if (deltaKE > kePost * 0.01f)
-        std::cout << "Kinetic Energy discrepancy greater than 1% detected!!";
 }
 
 
