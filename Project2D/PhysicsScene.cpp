@@ -104,13 +104,15 @@
         {
             if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
             {
-                //sphere1->resolveCollision(sphere2, 0.5f * (sphere1->getPosition() + sphere2->getPosition()));
+
 
                 float penetration = sphere1->getRadius() + sphere2->getRadius() - dist;
                 if (penetration > 0)
+                {
+                    sphere1->resolveCollision(sphere2, (sphere1->getPosition() + sphere2->getPosition()) * 0.5f, nullptr, penetration);
+                    return true;
+                }
 
-                    sphere1->resolveCollision(sphere2, (sphere1->getPosition() + sphere2 -> getPosition()) * 0.5f, nullptr, penetration);
-                return true;
             }
         }
    

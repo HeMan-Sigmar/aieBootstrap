@@ -2,8 +2,8 @@
 #include "Rigidbody.h"
 #include "PhysicsScene.h"
 #include <iostream>
-#define  MIN_LINEAR_THRESHOLD -1
-#define  MIN_ANGULAR_THRESHOLD 0
+#define  MIN_LINEAR_THRESHOLD 0.01
+#define  MIN_ANGULAR_THRESHOLD 0.01
 
 Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, float orientation, float mass) : PhysicsObject(shapeID)
 {
@@ -12,14 +12,18 @@ Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, 
 	m_shapeID = shapeID;
 	m_velocity = velocity;
 	m_orientation = orientation;
-	m_angularDrag = 0.11f;
-	m_linearDrag = 0.11f;
-	m_angularVelocity = 0.1f;
+	m_angularDrag = 0.21f;
+	m_linearDrag = 0.21f;
+	m_angularVelocity = 0.21f;
 	m_elasticity = 1.1f;
+
+}
+Rigidbody::~Rigidbody()
+{
+
 }
 void Rigidbody::fixedUpdate(glm::vec2 gravity, float timeStep)
 {
-
 	m_position += m_velocity * timeStep;
 	applyForce(gravity * m_mass * timeStep, m_position);
 
@@ -71,11 +75,12 @@ void Rigidbody::resolveCollision(Rigidbody* actor2, glm::vec2 contact, glm::vec2
 	 // 'r' is the radius from axis to application of force 
 	float r1 = glm::dot(contact - m_position, -perp);
 	float r2 = glm::dot(contact - actor2->m_position, perp);
+
 	// velocity of the contact point on this object  
 	float v1 = glm::dot(m_velocity, normal) - r1 * m_angularVelocity;
+
 	// velocity of contact point on actor2 
-	float v2 = glm::dot(actor2->m_velocity, normal) +
-		r2 * actor2->m_angularVelocity;
+	float v2 = glm::dot(actor2->m_velocity, normal) + r2 * actor2->m_angularVelocity;
 	if (v1 > v2) // they're moving closer 
 	{
 		// calculate the effective mass at contact point for each object 
@@ -108,6 +113,3 @@ void Rigidbody::setMass(float diff)
 	m_mass = diff;
 }
 
-void Rigidbody::ToWorld()
-{
-}
