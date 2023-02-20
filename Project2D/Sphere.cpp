@@ -8,6 +8,7 @@ Sphere::Sphere(glm::vec2 position, glm::vec2 velocity, float mass, float radius,
     m_position = position;
     m_mass = mass;
     m_velocity = velocity;
+    m_moment = 0.5f * mass * radius * radius;
 }
 
 void Sphere::draw()

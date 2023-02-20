@@ -3,13 +3,14 @@
 
 
 
-Box::Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, float mass, glm::vec4 colour) : Rigidbody (BOX, position, velocity, 0, mass)
+Box::Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, float mass, glm::vec4 colour) : Rigidbody(BOX, position, velocity, 0, mass)
 {
     m_extents = extents;
     m_colour = colour;
     m_position = position;
     m_velocity = velocity;
     m_mass = mass;
+    m_moment = 1.0f / 12.0f * mass * getHeight() * getWidth();
 }
 
 void Box::draw()

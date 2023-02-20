@@ -12,11 +12,11 @@ Rigidbody::Rigidbody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity, 
 	m_shapeID = shapeID;
 	m_velocity = velocity;
 	m_orientation = orientation;
-	m_angularDrag = 0.21f;
-	m_linearDrag = 0.21f;
-	m_angularVelocity = 0.21f;
-	m_elasticity = 1.1f;
-
+	m_angularDrag = 1.51f;
+	m_linearDrag = 0.01f;
+	m_angularVelocity = 0.01f;
+	m_elasticity = 1.0f;
+	//git - (NOT)------heman---027
 }
 Rigidbody::~Rigidbody()
 {

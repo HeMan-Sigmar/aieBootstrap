@@ -17,6 +17,9 @@ public:
 	float getHeight() { return m_extents.y; }
 	float getWidth() { return m_extents.x; }
 
+
+	//float getHeight() { return m_height; }
+	//float getWidth() { return m_width; }
 protected:
 	glm::vec2 m_extents;   // the halfedge lengths  
 	glm::vec4 m_colour;
@@ -25,7 +28,7 @@ protected:
 	glm::vec2 m_localX;
 	glm::vec2 m_localY;
 
-	//float m_height;
-	//float m_width;
+	float m_height;
+	float m_width;
 	glm::vec2 m_rotation;
 };
