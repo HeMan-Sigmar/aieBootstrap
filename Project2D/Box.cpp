@@ -3,7 +3,7 @@
 
 
 
-Box::Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, float mass, glm::vec4 colour) : Rigidbody(BOX, position, velocity, 0, mass)
+Box::Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, glm::vec2 rotation, float mass, glm::vec4 colour) : Rigidbody(BOX, position, velocity, 0, mass)
 {
     m_extents = extents;
     m_colour = colour;
@@ -11,13 +11,14 @@ Box::Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, float mass, 
     m_velocity = velocity;
     m_mass = mass;
     m_moment = 1.0f / 12.0f * mass * getHeight() * getWidth();
+    m_rotation = rotation;
 }
 
 void Box::draw()
 {
      //if only using rotation 
-/*     glm::mat4 transform = glm::rotate(m_rotation, glm::vec3(0, 0, 1)); 
-    aie::Gizmos::add2DAABBFilled(getCenter(), m_extents, m_colour, &transform);*/ 
+    // glm::mat4 transform = glm::rotate(m_rotation, glm::vec3(0, 0, 1)); 
+    //aie::Gizmos::add2DAABBFilled(getCenter(), m_extents, m_colour, &transform); 
 
  // draw using local axes 
     glm::vec2 p1 = m_position - m_localX * m_extents.x - m_localY * m_extents.y;

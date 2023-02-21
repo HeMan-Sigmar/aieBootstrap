@@ -5,7 +5,7 @@
 class Box : public Rigidbody
 {
 public:
-	Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, float mass, glm::vec4 colour);
+	Box(glm::vec2 extents, glm::vec2 position, glm::vec2 velocity, glm::vec2 rotation, float mass, glm::vec4 colour);
 	~Box();
 	virtual void draw();
 	virtual void fixedUpdate(glm::vec2 gravity, float timeStep);
@@ -17,9 +17,7 @@ public:
 	float getHeight() { return m_extents.y; }
 	float getWidth() { return m_extents.x; }
 
-
-	//float getHeight() { return m_height; }
-	//float getWidth() { return m_width; }
+	glm::vec2 setRotation()  { return m_rotation; }
 protected:
 	glm::vec2 m_extents;   // the halfedge lengths  
 	glm::vec4 m_colour;
@@ -28,7 +26,7 @@ protected:
 	glm::vec2 m_localX;
 	glm::vec2 m_localY;
 
-	float m_height;
-	float m_width;
+	//float m_height;
+	//float m_width;
 	glm::vec2 m_rotation;
 };
